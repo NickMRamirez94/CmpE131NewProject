@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import Blueprint
 from my_app.source.models import cursor
 
 my_view = Blueprint('my_view', __name__)
@@ -6,14 +6,12 @@ my_view = Blueprint('my_view', __name__)
 
 #-------------------- getBooks --------------------
 def getBooks(data_results):
-    BOOK_ID = 0
-    TITLE = 1
+    ID = 0
+    NAME = 1
     AUTHOR = 2
-    GENRE = 4
-    PUBLISH_DATE = 3
-    VOLUME_SALES = 6
-    MOVIE = 7
-
+    PUBLISHER = 3
+    CATEGORY = 4
+    RELEASED = 5
 
     header = """
         <html>
@@ -36,13 +34,12 @@ def getBooks(data_results):
         <table>
             <table style="width:100%">
               <tr>
-                <th>Book ID</th>
+                <th>ID</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Genre</th>
-                <th>Publish Date</th>
-                <th>Volume Sales</th>
-                <th>Movie</th>
+                <th>Category</th>
+                <th>Publisher</th>
+                <th>Released</th>
               </tr>
                 """
 
@@ -54,13 +51,12 @@ def getBooks(data_results):
     for item in data_results:
         key = item[ID]
         message_out += '<tr>'+\
-                       '<td align="center">'+str(item[BOOK_ID])+'</td>'+\
-                       '<td>'+item[TITLE]+'</td>'+\
+                       '<td>'+str(item[ID])+'</td>'+\
+                       '<td><a style="text-decoration:none; color:#0000ff;" href="http://127.0.0.1:5000/books/'+str(key)+'">'+item[NAME]+'</td>'+\
                        '<td>'+item[AUTHOR]+'</td>'+\
-                       '<td align="right">'+item[GENRE]+'</td>'+\
-                       '<td align="right">'+item[PUBLISH_DATE]+'</td>'+\
-                       '<td align="right">'+item[VOLUME_SALES]+'</td>'+\
-                       '<td align="right">'+item[MOVIE]+'</td>'+\
+                       '<td align="right">'+item[PUBLISHER]+'</td>'+\
+                       '<td align="right">'+item[CATEGORY]+'</td>'+\
+                       '<td align="right">'+item[RELEASED]+'</td>'+\
                        '</tr>'
 
     return header+message_out+footer
@@ -68,9 +64,9 @@ def getBooks(data_results):
 #-------------------- getStudios --------------------
 def getPublisher(data_results):
     NAME = 1
-    STUDIO_RATING = 2
-    TITLES_IN_CATALOG = 3
-
+    LOCATION = 2
+    TITLES = 3
+    RATING = 4
 
     header = """
             <html>
@@ -92,10 +88,11 @@ def getPublisher(data_results):
         <table>
             <table style="width:100%">
               <tr>
-                <th>Developer</th>
-                <th>Studio Rating</th>
-                <th>Studio Headquarters</th>
-                <th>Titles in Catalog</th>
+                <th>ID</th>
+                <th>Publisher Name</th>
+                <th>Headquarters</th>
+                <th>Total Books Released</th>
+                <th>Average Book Rating</th>
               </tr>
                 """
 
@@ -105,12 +102,14 @@ def getPublisher(data_results):
     message_out = ""
 
 
-    key = 0
+    key = 1
     for item in data_results:
         message_out += '<tr>'+\
-                       '<td>'+str(item[NAME])+'</td>'+\
-                       '<td align="right">'+item[STUDIO_RATING]+'</td>'+\
-                       '<td align="right">'+str(item[TITLES_IN_CATALOG])+'</td>'+\
+                       '<td>'+str(key)+'</td>'+\
+                       '<td><a style="text-decoration:none; color:#0000ff;" href="http://127.0.0.1:5000/publishers/'+str(key)+'">'+item[NAME]+'</td>'+\
+                       '<td align="right">'+item[LOCATION]+'</td>'+\
+                       '<td align="right">'+item[TITLES]+'</td>'+\
+                       '<td align="right">'+item[RATING]+'</td>'+\
                        '</tr>'
         key += 1
     return header+message_out+footer
@@ -805,9 +804,11 @@ function closeNav() {
 <h1 style="font-size:300%;" align="center" style="font-family:'Times New Roman'"> The Collections </h1>
 <hr>
     '''
-    command = """SELECT {g}."Book_ID", {g}.Title, {g}.Author, {g}.Genre, {g}."Publish_Date", {g}."Volume_Sales", {g}.Movie
-                      FROM {g}
-        """.format(g="Books")
+    command = """SELECT {b}.ID, {b}.Name, {b}.Author, {b}.Category, {p}.Name, {b}.Released
+                      FROM {b} 
+                      join {p} 
+                      ON {b}.Publisher = {p}.ID
+        """.format(b="Books", p='Publisher')
 
     cursor.execute(command)
     Catalog = cursor.fetchall()
@@ -917,17 +918,17 @@ function closeNav() {
 <hr>
     '''
     NAME = 1
-    YEAR = 2
-    PLATFORM = 3
-    SINGLE_P = 5
-    MULTI_P = 6
-    URL = 10
+    AUTHOR = 2
+    PUBLISHER = 3
+    CATEGORY = 4
+    RELEASED = 5
+    COVER = 6
 
-    command = """SELECT *
-                      FROM {a}
-                      join {b}
-                      WHERE {a}.Game_ID = {p1}
-        """.format(a="Games", b='Studios', p1=key)
+    command = """SELECT {b}.ID, {b}.Name, {b}.Author, {b}.Category, {p}.Name, {b}.Released, {b}.Cover
+                      FROM {b} 
+                      join {p} 
+                      ON {b}.Publisher = {p}.ID
+        """.format(b="Books", p='Publisher')
     cursor.execute(command)
     catalog_data = cursor.fetchall()
 
@@ -1038,11 +1039,11 @@ img {
     item = catalog_data[0]
 
     message = '<table>'
-    message += '<center><h1>'+ str(item[NAME])+'</h1></center>'
-    message += '<center><b>Single Player:</b> ' + item[SINGLE_P]+'</b><c/enter>'
-    message += '<center><b>Multiplayer:</b> ' + item[MULTI_P]+'</b></center>'
-    message += '<center><b>Year Released:</b> ' + str(item[YEAR])+'</b></center>'
-    message += '<center><b>Platform:</b> ' + item[PLATFORM]+'</b></center></td><br>'
+    message += '<center><h1>'+ item[NAME]+'</h1></center>'
+    message += '<center><b>Author:  </b> ' + item[AUTHOR]+'</b><c/enter>'
+    message += '<center><b>Category:  </b> ' + item[PUBLISHER]+'</b></center>'
+    message += '<center><b>Publisher:  </b> ' + item[CATEGORY]+'</b></center>'
+    message += '<center><b>Released in:  </b> ' + item[RELEASED]+'</b></center></td><br>'
     message += """<style>
 img {
     display: block;
@@ -1050,12 +1051,12 @@ img {
 }
 </style>
 
-<img src="""+str(item[URL])+""" align="center" alt="Mountain View" style="width:800px;height:400px;">"""
+<img src="""+item[COVER]+""" align="center" alt="Mountain View" style="width:800px;height:400px;">"""
     return header+message
 
-#-------------------- Developers Handler --------------------
-@my_view.route('/studios')
-def studios():
+#-------------------- Publishers Handler --------------------
+@my_view.route('/publishers')
+def publishers():
 
     header='''
     <html>
@@ -1154,21 +1155,21 @@ function closeNav() {
 <h1 style="font-size:300%;" align="center" style="font-family:'Times New Roman'"> The Collection </h1>
 <hr>
 '''
-    command = """SELECT {s}.Developer, {s}.ID, {s}."Studio Rating", {s}."Studio Headquarters", {s}."Titles in catalog"
-                FROM {s}
-        """.format(s='Studios')
+    command = """SELECT *
+                FROM {p}
+        """.format(p='Publisher')
 
     cursor.execute(command)
     Catalog = cursor.fetchall()
 
-    return header+(getStudios(Catalog))
+    return header+(getPublisher(Catalog))
 
 
 
 #-------------------- Developers Key Handler --------------------
 #Parameters: Key, integer
-@my_view.route('/studios/<key>')
-def studio(key):
+@my_view.route('/publishers/<key>')
+def publisher(key):
 
     header='''
     <html>
@@ -1267,16 +1268,14 @@ function closeNav() {
 <h1 style="font-size:300%;" align="center" style="font-family:'Times New Roman'"> The Collection </h1>
 <hr>
     '''
-    ID = 0
-    STUDIO_RATING = 2
-    STUDIO_HQ = 3
-    TOTAL_TITLES = 4
-    URL = 5
+    NAME = 1
+    LOCATION = 2
+    TITLES = 3
+    RATING = 4
 
     command = """SELECT *
-                      FROM {a}
-                      WHERE {a}.Developer = '{p1}'
-        """.format(a='Studios', p1=key)
+                      FROM {p}
+        """.format(p='Publisher')
     cursor.execute(command)
     catalog_data = cursor.fetchall()
 
@@ -1385,16 +1384,9 @@ img {
     item = catalog_data[0]
 
     message = '<table>'
-    message += '<center><h1>'+str(item[ID])+'</h1></center>'
-    message += '<center><b>Studio Headquarters:</b>'+item[STUDIO_HQ]+'</b></center>'
-    message += '<center><b>Studio Rating:</b>'+str(item[STUDIO_RATING])+'</b></center>'
-    message += '<center><b>Total Game Titles:</b>'+str(item[TOTAL_TITLES])+'</b></center><br>'
-    message += """<style>
-img {
-    display: block;
-    margin: 0 auto;
-}
-</style>
+    message += '<center><h1>'+item[NAME]+'</h1></center>'
+    message += '<center><b>Headquarters:  </b>'+item[LOCATION]+'</b></center>'
+    message += '<center><b>Total Books Released:  </b>'+item[TITLES]+'</b></center>'
+    message += '<center><b>Average Book Rating:  </b>'+item[RATING]+'</b></center><br>'
 
-<img src="""+str(item[URL])+""" align="center" alt="Mountain View" style="width:800px;height:400px;">"""
     return header+message

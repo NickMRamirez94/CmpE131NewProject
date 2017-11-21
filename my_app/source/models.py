@@ -1,6 +1,6 @@
 import sqlite3
 import os.path
-sqlite_file = 'BookCatalog.db.sqbpro'
+sqlite_file = 'BookCatalog.sqlite'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, sqlite_file)
