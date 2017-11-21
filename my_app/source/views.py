@@ -128,6 +128,14 @@ body {
     transition: background-color .5s;
 }
 
+.about{
+	background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),url(https://wallpaperscraft.com/image/book_table_sheets_pages_light_44458_2560x1600.jpg);
+	height: 100vh;
+	background-position: center;
+	background-size: cover;
+
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -173,16 +181,13 @@ body {
 }
 </style>
 </head>
-<body>
+<body class="about">
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <a href="http://127.0.0.1:5000/">Home</a>
-  <a href="http://127.0.0.1:5000/pc">PC</a>
-  <a href="http://127.0.0.1:5000/playstation">Playstation</a>
-  <a href="http://127.0.0.1:5000/xbox">Xbox</a>
-  <a href="http://127.0.0.1:5000/nintendo">Nintendo</a>
-  <a href="http://127.0.0.1:5000/news">News</a>
+  <a href="http://127.0.0.1:5000/pc">Authors</a>
+  <a href="http://127.0.0.1:5000/playstation">Top Books</a>
   <a href="http://127.0.0.1:5000/catalog">Catalog</a>
 </div>
 
@@ -213,7 +218,9 @@ function closeNav() {
 
 <body style="background-color:FEFEFE;">
 
-<h1 style="font-size:300%;" align="center" style="font-family:'Times New Roman'"> The Collection </h1>
+
+
+<h1 style="font-size:400%;" align="center" style="font-family:'Times New Roman'"> The Collection </h1>
 <style>
 img {
     display: block;
@@ -221,10 +228,10 @@ img {
 }
 </style>
 
-<img src=https://blog.spoongraphics.co.uk/wp-content/uploads/2014/illustration/1.jpg align="center" alt="Mountain View" style="width:500px;height:350px;">
-<p align="center" style="font-family:'Arial'"> The Arena is built for gamers, by gamers </p>
-<p align="center" style="font-family:'Arial'"> Here you can search for games on current or older systems </p>
-<p align="center" style="font-family:'Arial'"> We also have information on consoles and other resources </p>
+<img src=http://akgerber.com/wp-content/uploads/Open_Book_Logo_1small.png align="center" alt="BookLogo" style="width:500px;height:350px;">
+<h2 align="center" style="font-family:'Arial'"> Welcome to The Collection</br>
+This is a website for book enthusiast to find out what they should read next!
+</h2>
 <hr>
 
 <style>
@@ -269,22 +276,22 @@ img {
 
 <h2 align="center">Testimonials</h2>
 
-<div class="container">
-  <img src="https://yt3.ggpht.com/-SLRdt5LKJic/AAAAAAAAAAI/AAAAAAAAAAA/mIeY5m_1ZdM/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="Burnie" style="width:90px">
-  <p><span>Burnie Burns</span> Rooster Teeth Productions</p>
-  <p>I check The Arena all the time because they catalog the best of the best</p>
+<div class="container" style="background-color: #d0d4db">
+  <img src="http://static.tvtropes.org/pmwiki/pub/images/king_8.png" alt="Stephen King" style="width:90px">
+  <p><span>Stephen King</span>Author</p>
+  <p>The Collection is my go to place to find other great novels.</p>
 </div>
 
-<div class="container">
-  <img src="http://24.media.tumblr.com/c0ac782cf823042caea308b166c5e419/tumblr_n49qz73Z7F1rlqiixo7_500.jpg" alt="Gavin" style="width:90px">
-  <p><span >Gavin Free</span> The Slow Mo Guys</p>
-  <p>Whenever I want a game to play, I always come here to see the best options</p>
+<div class="container" style="background-color: #d0d4db">
+  <img src="https://images-na.ssl-images-amazon.com/images/I/51qMV+XJEfL._UX250_.jpg" alt="Danielle Steel" style="width:90px">
+  <p><span >Danielle Steel</span>Author</p>
+  <p>I am happy to see my books on The Collection!</p>
 </div>
 
-<div class="container">
-  <img src="http://vignette1.wikia.nocookie.net/roosterteeth/images/2/2a/Gus-sorola.jpg/revision/latest?cb=20150331072512" alt="Gus" style="width:90px">
-  <p><span >Gus Sorola</span> Rooster Teeth Productions</p>
-  <p>I love the minimalistic UI and rich content this website provides</p>
+<div class="container" style="background-color: #d0d4db">
+  <img src="http://danbrown.com/wp-content/themes/danbrown/images/db/slideshow/author/db.courter.02.jpg" alt="Stan Brown" style="width:90px">
+  <p><span >Dan $ Brown</span>Author</p>
+  <p>I love the way The Collection organizes its content.</p>
 </div>
 
 </body>
@@ -805,8 +812,8 @@ function closeNav() {
 <hr>
     '''
     command = """SELECT {b}.ID, {b}.Name, {b}.Author, {b}.Category, {p}.Name, {b}.Released
-                      FROM {b} 
-                      join {p} 
+                      FROM {b}
+                      join {p}
                       ON {b}.Publisher = {p}.ID
         """.format(b="Books", p='Publisher')
 
@@ -925,8 +932,8 @@ function closeNav() {
     COVER = 6
 
     command = """SELECT {b}.ID, {b}.Name, {b}.Author, {b}.Category, {p}.Name, {b}.Released, {b}.Cover
-                      FROM {b} 
-                      join {p} 
+                      FROM {b}
+                      join {p}
                       ON {b}.Publisher = {p}.ID
         """.format(b="Books", p='Publisher')
     cursor.execute(command)
