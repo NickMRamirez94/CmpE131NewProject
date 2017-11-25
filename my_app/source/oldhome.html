@@ -1,0 +1,201 @@
+<html>
+<head>
+<style>
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    border: 1px solid #D2D4D5;
+    color: #7F7F7F
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    transition: background-color .5s;
+}
+
+.about{
+	background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),url(https://wallpaperscraft.com/image/book_table_sheets_pages_light_44458_2560x1600.jpg);
+	height: 100vh;
+	background-position: center;
+	background-size: cover;
+
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2C3539;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #FFFFFF;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #F5F5F5;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body class="about">
+
+<ul>
+  <li><a href="#">Menus</a></li>
+  <li><a href="#">Reservations</a></li>
+  <li><a href="#">Past Items</a></li>
+  <li><a href="#">More</a></li>
+</ul>
+
+<div id="main">
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+</div>
+
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    document.body.style.backgroundColor = "white";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    document.body.style.backgroundColor = "white";
+}
+</script>
+
+</body>
+</html>
+
+<head>
+<title> Home </title>
+<head>
+
+<body style="background-color:FEFEFE;">
+
+
+
+<h1 style="font-size:400%;" align="center" style="font-family:'Times New Roman'"> The Collection </h1>
+<style>
+img {
+    display: block;
+    margin: 0 auto;
+}
+</style>
+
+<img src=http://akgerber.com/wp-content/uploads/Open_Book_Logo_1small.png align="center" alt="BookLogo" style="width:500px;height:350px;">
+<h2 align="center" style="font-family:'Arial'"> Welcome to The Collection</br>
+This is a website for book enthusiast to find out what they should read next!
+</h2>
+<hr>
+
+<style>
+.container {
+  border: 2px solid #ccc;
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 16px;
+  margin: 16px;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container span {
+  font-size: 20px;
+  margin-right: 15px;
+}
+
+@media (max-width: 250px) {
+  .container {
+      text-align: center;
+  }
+  .container img {
+      margin: auto;
+      float: none;
+      display: block;
+  }
+}
+</style>
+</head>
+<body>
+
+<h2 align="center">Testimonials</h2>
+
+<div class="container" style="background-color: #d0d4db">
+  <img src="http://static.tvtropes.org/pmwiki/pub/images/king_8.png" alt="Stephen King" style="width:90px">
+  <p><span>Stephen King</span>Author</p>
+  <p>The Collection is my go to place to find other great novels.</p>
+</div>
+
+<div class="container" style="background-color: #d0d4db">
+  <img src="https://images-na.ssl-images-amazon.com/images/I/51qMV+XJEfL._UX250_.jpg" alt="Danielle Steel" style="width:90px">
+  <p><span >Danielle Steel</span>Author</p>
+  <p>I am happy to see my books on The Collection!</p>
+</div>
+
+<div class="container" style="background-color: #d0d4db">
+  <img src="http://danbrown.com/wp-content/themes/danbrown/images/db/slideshow/author/db.courter.02.jpg" alt="Stan Brown" style="width:90px">
+  <p><span >Dan $ Brown</span>Author</p>
+  <p>I love the way The Collection organizes its content.</p>
+</div>
+
+</body>
+</html>
